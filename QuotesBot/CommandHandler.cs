@@ -9,11 +9,11 @@ namespace QuotesBot;
 
 public class CommandHandler
 {
-    private readonly DiscordSocketClient Client;
+    private readonly DiscordSocketClient _Client;
     
     public CommandHandler(DiscordSocketClient Client)
     {
-        this.Client = Client;
+        this._Client = Client;
         Client.Ready += Client_Ready;
 
         Client.SlashCommandExecuted += SlashCommandHandler;
@@ -33,6 +33,9 @@ public class CommandHandler
             case "totextfile":
                 await ToTextFile(Command);
                 break;
+            case "github":
+                await GitHub(Command);
+                break;
         }
     }
 
@@ -44,7 +47,7 @@ public class CommandHandler
         {
             foreach (SlashCommandBuilder? Command in Commands)
             { 
-                await Client.Rest.CreateGlobalCommand(Command?.Build());   
+                await _Client.Rest.CreateGlobalCommand(Command?.Build());   
             }
         }
         catch (HttpException Exception)
@@ -78,15 +81,36 @@ public class CommandHandler
                     "Whether the File is Visible to Others or Not",
                     false
                 ),
+            new SlashCommandBuilder()
+                .WithName("github")
+                .WithDescription("Sends an embed containing this bot's GitHub page."),
         };
 
         return Commands;
     }
 
+    private Task GitHub(SocketSlashCommand Command)
+    {
+        EmbedAuthorBuilder Author = new EmbedAuthorBuilder()
+            .WithName("ASPNyan")
+            .WithUrl("https://github.com/ASPNyan")
+            .WithIconUrl("https://avatars.githubusercontent.com/u/85216339");
+        Embed Embed = new EmbedBuilder()
+            .WithAuthor(Author)
+            .WithColor(Color.Teal)
+            .WithTitle("[QuotesBot GitHub](https://github.com/ASPNyan/QuotesBot)")
+            .WithDescription(
+                "[QuotesBot](https://github.com/ASPNyan/QuotesBot) by GitHub user [ASPNyan](https://github.com/ASPNyan)"
+                )
+            .Build();
+
+        Command.RespondAsync(embed: Embed, ephemeral: true);
+        return Task.CompletedTask;
+    }
+
     private async Task ToTextFile(SocketSlashCommand Command)
     {
-        
-        var Guild = Client.GetGuild(Command.GuildId!.Value);
+        var Guild = _Client.GetGuild(Command.GuildId!.Value);
         var Ephemeral = Command.Data.Options?.FirstOrDefault()?.Value?.ToString() == "True";
         await Command.DeferAsync(Ephemeral);
         var GuildFiles = Directory.GetFiles("./GuildQuotes");
@@ -116,7 +140,7 @@ public class CommandHandler
 
     private async Task Reset(SocketInteraction Command)
     {
-        var Guild = Client.GetGuild(Command.GuildId!.Value);
+        var Guild = _Client.GetGuild(Command.GuildId!.Value);
         
         if (File.Exists($"./GuildQuotes/{Guild.Id}.json"))
         {
