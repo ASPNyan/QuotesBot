@@ -15,6 +15,12 @@
         <Product>Discord Quotes Bot</Product>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>QuotesBotKey.snk</AssemblyOriginatorKeyFile>
+        <PackageVersion>1.1.0</PackageVersion>
+        <Description>QuotesBot is a simple Discord bot, allowing the user to add the bot to a server and, after setup, record quotes from users in the server. </Description>
+        <PackageProjectUrl>https://github.com/ASPNyan/QuotesBot</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/ASPNyan/QuotesBot/blob/main/LICENSE.md</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/ASPNyan/QuotesBot.git</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
