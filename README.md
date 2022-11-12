@@ -7,12 +7,17 @@ QuotesBot is a simple Discord bot, allowing the user to add the bot to a server 
 The bot has commands to send these quotes as a text file and to clear all quotes and the selected channel.
 
 The bot follows a specific Regex for all quotes. The Regex is as follows:
+
+Usage for C#: 
+```csharp
+    Regex DoubleQuoteRegex = new Regex("\"(?:[^\"]|\"\")*\"\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
+    Regex SingleQuoteRegex = new Regex("'(?:[^']|'')*'\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
 ```
-Usage for C#: `new Regex("\"(?:[^\"]|\"\")*\"\\s+-\\s+[A-Za-z0-9]+")`
-Usage Elsewhere: `"(?:[^"]|"")*"\s+-\s+[A-Za-z0-9]+`
-```
+
+Usage Elsewhere: `"(?:[^"]|"")*"\s+-\s+[A-Za-z0-9]+` or `'(?:[^']|'')*'\s+-\s+[A-Za-z0-9]+`
+
 This Regex will match any quote that is surrounded by double quotes, followed by a space, a dash, and a space, followed by any number of letters or numbers.
-For Example, `"This is a quote" - User` will match, but `"This is a quote - User` will not.
+For Example, `"This is a quote" - User` or `'This is also a quote' - User 2022` will match, but `"This is a quote' - User` will not.
 
 The Bot is written in C# using the Discord.Net library.
 
