@@ -14,7 +14,7 @@ Usage for C#:
     Regex SingleQuoteRegex = new Regex("'(?:[^']|'')*'\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
 ```
 
-Usage Elsewhere: `"(?:[^"]|"")*"\s+-\s+[A-Za-z0-9]+` or `'(?:[^']|'')*'\s+-\s+[A-Za-z0-9]+`
+Usage Elsewhere: `"(?:[^"]|"")*"\s+-\s+[A-Za-z\s0-9]+` or `'(?:[^']|'')*'\s+-\s+[A-Za-z\s0-9]+`
 
 This Regex will match any quote that is surrounded by double quotes, followed by a space, a dash, and a space, followed by any number of letters or numbers.
 For Example, `"This is a quote" - User` or `'This is also a quote' - User 2022` will match, but `"This is a quote' - User` will not.
