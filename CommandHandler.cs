@@ -206,7 +206,7 @@ public class CommandHandler
                  {
                      Regex DoubleQuoteRegex = new Regex("\"(?:[^\"]|\"\")*\"\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
                      Regex SingleQuoteRegex = new Regex("'(?:[^']|'')*'\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
-                     if (DoubleQuoteRegex.IsMatch(Message) || SingleQuoteRegex.IsMatch(Message))
+                     if (DoubleQuoteRegex.IsMatch(Message, 0) || SingleQuoteRegex.IsMatch(Message, 0))
                      {
                          QuoteDataJson.Quotes.Add(Message);
                      }

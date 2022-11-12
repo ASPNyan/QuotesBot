@@ -60,7 +60,7 @@ namespace QuotesBot
                 {
                     var GetMessage = Channel.GetMessageAsync(SocketMessage.Id);
                     var Message = await GetMessage;
-                    if (DoubleQuoteRegex.IsMatch(Message.Content.Trim()) || SingleQuoteRegex.IsMatch(Message.Content.Trim()))
+                    if (DoubleQuoteRegex.IsMatch(Message.Content.Trim(), 0) || SingleQuoteRegex.IsMatch(Message.Content.Trim(), 0))
                     {
                         QuoteFileData.Quotes.Add(Message.Content.Trim());
                         await File.WriteAllTextAsync(QuoteFile, JsonConvert.SerializeObject(QuoteFileData, Formatting.Indented));
