@@ -89,7 +89,7 @@ public class CommandHandler
         return Commands;
     }
 
-    private Task GitHub(SocketSlashCommand Command)
+    private Task GitHub(SocketInteraction Command)
     {
         EmbedAuthorBuilder Author = new EmbedAuthorBuilder()
             .WithName("ASPNyan")
@@ -204,8 +204,9 @@ public class CommandHandler
              {
                  foreach (var Message in from IMessage in ChannelMessages from MessageData in IMessage select MessageData.Content.Trim())
                  {
-                     Regex QuoteRegex = new Regex("\"(?:[^\"]|\"\")*\"\\s+-\\s+[A-Za-z0-9]+", RegexOptions.IgnoreCase);
-                     if (QuoteRegex.IsMatch(Message))
+                     Regex DoubleQuoteRegex = new Regex("\"(?:[^\"]|\"\")*\"\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
+                     Regex SingleQuoteRegex = new Regex("'(?:[^']|'')*'\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
+                     if (DoubleQuoteRegex.IsMatch(Message) || SingleQuoteRegex.IsMatch(Message))
                      {
                          QuoteDataJson.Quotes.Add(Message);
                      }

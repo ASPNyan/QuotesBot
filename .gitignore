@@ -10,3 +10,5 @@ riderModule.iml
 .idea/.idea.QuotesBot/.idea/.name
 .gitignore
 .idea/.idea.QuotesBot/.idea/.gitignore
+QuotesBotKey.snk
+FodyWeavers.xml

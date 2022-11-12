@@ -54,12 +54,13 @@ namespace QuotesBot
             {
                 var Json = await File.ReadAllTextAsync(QuoteFile);
                 var QuoteFileData = JsonConvert.DeserializeObject<JsonQuoteData>(Json)!;
-                Regex QuoteRegex = new Regex("\"(?:[^\"]|\"\")*\"\\s+-\\s+[A-Za-z0-9]+", RegexOptions.IgnoreCase);
+                Regex DoubleQuoteRegex = new Regex("\"(?:[^\"]|\"\")*\"\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
+                Regex SingleQuoteRegex = new Regex("'(?:[^']|'')*'\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
                 if (QuoteFileData.ChannelId == Channel.Id)
                 {
                     var GetMessage = Channel.GetMessageAsync(SocketMessage.Id);
                     var Message = await GetMessage;
-                    if (QuoteRegex.IsMatch(Message.Content.Trim()))
+                    if (DoubleQuoteRegex.IsMatch(Message.Content.Trim()) || SingleQuoteRegex.IsMatch(Message.Content.Trim()))
                     {
                         QuoteFileData.Quotes.Add(Message.Content.Trim());
                         await File.WriteAllTextAsync(QuoteFile, JsonConvert.SerializeObject(QuoteFileData, Formatting.Indented));
