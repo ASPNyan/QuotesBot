@@ -10,8 +10,8 @@ The bot follows a specific Regex for all quotes. The Regex is as follows:
 
 Usage for C#: 
 ```csharp
-    Regex DoubleQuoteRegex = new Regex("\"(?:[^\"]|\"\")*\"\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
-    Regex SingleQuoteRegex = new Regex("'(?:[^']|'')*'\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
+Regex DoubleQuoteRegex = new Regex("\"(?:[^\"]|\"\")*\"\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
+Regex SingleQuoteRegex = new Regex("'(?:[^']|'')*'\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
 ```
 
 Usage Elsewhere: `"(?:[^"]|"")*"\s+-\s+[A-Za-z\s0-9]+` or `'(?:[^']|'')*'\s+-\s+[A-Za-z\s0-9]+`
@@ -75,7 +75,8 @@ And that's it. If the embed returns as green and reads success, your bot is setu
 ---
 ## License
 
-### This Module is Licensed Under A Modified Version of the [CC-BY-NC-SA 4.0](http://creativecommons.org/licenses/by-nc-sa/4.0/) License. A Copy of the License is Found [Here](https://github.com/ASPNyan/quotesbot/blob/main/LICENSE.md).
+### This Module is Licensed Under A Modified Version of the [CC-BY-NC-SA 4.0](http://creativecommons.org/licenses/by-nc-sa/4.0/) License.
+A Copy of the License is Found [Here](LICENSE.md). [**Disclaimer**](LicenseInfo/Defs.md#Disclaimer)
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/></a>
 
@@ -92,20 +93,20 @@ The following is a human-readable summary of (and not a substitute for) the lice
 
 ---
 
-#### Under the following terms:
+#### [Under the following terms:](LicenseInfo/Defs.md#Terms)
 
-- **Attribution** — You must give [appropriate credit](#), provide a link to the license, and [indicate if changes were made](#). You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-- **NonCommercial** — You may not use the material for [commercial purposes](#).
-- **ShareAlike** — If you remix, transform, or build upon the material, you must distribute your contributions under the [same license](#) as the original.
+- [**Attribution**](LicenseInfo/Defs.md#Attribution) — You must give [appropriate credit](LicenseInfo/Defs.md#Appropriate-Credit), provide a link to the license, and [indicate if changes were made](LicenseInfo/Defs.md#Indication-of-Changes). You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+- [**NonCommercial**](LicenseInfo/Defs.md#NonCommercial) — You may not use the material for [commercial purposes](LicenseInfo/Defs.md#Commercial-Purposes).
+- [**ShareAlike**](LicenseInfo/Defs.md#ShareAlike) — If you remix, transform, or build upon the material, you must distribute your contributions under the [same license](LicenseInfo/Defs.md#Same-License) as the original.
 
-- **No additional restrictions** — You may not apply legal terms or [technological measures](#) that legally restrict others from doing anything the license permits.
+- [**No Additional Restrictions**](LicenseInfo/Defs.md#No-Additional-Restrictions) — You may not apply legal terms or [technological measures](LicenseInfo/Defs.md#Technological-Measures) that legally restrict others from doing anything the license permits.
 
 ---
 
-#### Notices:
+#### [Notices:](LicenseInfo/Defs.md#Notices)
 
-- You do not have to comply with the license for elements of the material in the public domain or where your use is permitted by an applicable [exception or limitation](#).
-- No warranties are given. The license may not give you all of the permissions necessary for your intended use. For example, other rights such as [publicity, privacy, or moral rights](#) may limit how you use the material.
+- You do not have to comply with the license for elements of the material in the public domain or where your use is permitted by an applicable [exception or limitation](LicenseInfo/Defs.md#Applicable-Exception-or-Limitation).
+- No warranties are given. The license may not give you all of the permissions necessary for your intended use. For example, other rights such as [publicity, privacy, or moral rights](LicenseInfo/Defs.md#Publicity,-Privacy,-or-Moral-Rights) may limit how you use the material.
 
 **--End--**
 
