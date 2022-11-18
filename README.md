@@ -44,6 +44,12 @@ This text file is shortly deleted from the system after it is sent.
 
 The bool argument sends the message as ephemeral if it is set to true, meaning the message can only be seen by the command author.
  
+- ### `/random bool`
+The `random` command uses one argument, a boolean (true/false).
+
+It gets a random quote from the current guild and sends it into the channel where the interaction was created.
+
+The bool argument sends the message as ephemeral if it is set to true, meaning the message can only be seen by the command author.
 
 ---
 ## Setup

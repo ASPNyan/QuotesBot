@@ -13,7 +13,7 @@ public class CommandHandler
     
     public CommandHandler(DiscordSocketClient Client)
     {
-        this._Client = Client;
+        _Client = Client;
         Client.Ready += Client_Ready;
 
         Client.SlashCommandExecuted += SlashCommandHandler;
@@ -35,6 +35,9 @@ public class CommandHandler
                 break;
             case "github":
                 await GitHub(Command);
+                break;
+            case "random":
+                await Random(Command);
                 break;
         }
     }
@@ -84,12 +87,45 @@ public class CommandHandler
             new SlashCommandBuilder()
                 .WithName("github")
                 .WithDescription("Sends an embed containing this bot's GitHub page."),
+            new SlashCommandBuilder()
+                .WithName("random")
+                .WithDescription("Gets a Random Quote from this Server!")
+                .AddOption("ephemeral",
+                    ApplicationCommandOptionType.Boolean,
+                    "Whether the Quote is Visible to Others or Not",
+                    false
+                )
         };
 
         return Commands;
     }
+    
+    private async Task Random(SocketSlashCommand Command)
+    {
+        var Guild = _Client.GetGuild(Command.GuildId!.Value);
+        var Ephemeral = Command.Data.Options?.FirstOrDefault()?.Value?.ToString() == "True";
+        await Command.DeferAsync(Ephemeral);
+        var GuildFiles = Directory.GetFiles("./GuildQuotes");
+        Regex FileName = new Regex("[0-9]+", RegexOptions.IgnoreCase);
 
-    private Task GitHub(SocketInteraction Command)
+        foreach (string GuildFile in GuildFiles)
+        {
+            string JsonFileName = GuildFile.Split("/").Last().Split("\\").Last().Split(".").First();
+            if (!FileName.IsMatch(JsonFileName)) continue;
+            if (JsonFileName == Guild.Id.ToString())
+            {
+                string JsonFileData = await File.ReadAllTextAsync($"./GuildQuotes/{JsonFileName}.json");
+                var Quotes = JsonConvert.DeserializeObject<JsonQuoteData>(JsonFileData);
+                if (Quotes != null)
+                {
+                    var RandomQuote = Quotes.Quotes[new Random().Next(0, Quotes.Quotes.Count)];
+                    await Command.FollowupAsync(RandomQuote);
+                }
+            }
+        }
+    }
+
+    private static Task GitHub(SocketInteraction Command)
     {
         EmbedAuthorBuilder Author = new EmbedAuthorBuilder()
             .WithName("ASPNyan")
@@ -204,10 +240,30 @@ public class CommandHandler
              {
                  foreach (var Message in from IMessage in ChannelMessages from MessageData in IMessage select MessageData.Content.Trim())
                  {
-                     Regex DoubleQuoteRegex = new Regex("\"(?:[^\"]|\"\")*\"\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
-                     Regex SingleQuoteRegex = new Regex("'(?:[^']|'')*'\\s+-\\s+[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
-                     if (DoubleQuoteRegex.IsMatch(Message, 0) || SingleQuoteRegex.IsMatch(Message, 0))
+                     Regex BaseDoubleRegex = new Regex("^\"(?:[^\"]|\"\")*\"\\s*-\\s*[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
+                     Regex DoubleQuoteRegex = new Regex("^\"(?:[^\"]|\"\")*\"\\s-\\s[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
+
+                     Regex BaseSingleRegex = new Regex("^'(?:[^']|'')*'\\s*-\\s*[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
+                     Regex SingleQuoteRegex = new Regex("^'(?:[^']|'')*'\\s-\\s[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
+                     if (BaseDoubleRegex.IsMatch(Message, 0) || BaseSingleRegex.IsMatch(Message, 0))
                      {
+                         if (!(DoubleQuoteRegex.IsMatch(Message, 0) || SingleQuoteRegex.IsMatch(Message, 0)))
+                         {
+                             int ToDashLength = Message.IndexOf("-", StringComparison.Ordinal);
+                             string Quote = Message[..ToDashLength].Trim();
+                             string Author = Message[(ToDashLength + 1)..].Trim();
+
+                             Regex CheckQuote = new Regex("^\"\\s+(?:[^\"]|\"\")*\\s+\"");
+                             if (CheckQuote.IsMatch(Quote, 0))
+                             {
+                                 Quote = Quote.Replace("\"", "").Trim();
+                                 Quote = $"\"{Quote}\"";
+                             }
+                             
+                             QuoteDataJson.Quotes.Add($"{Quote} - {Author}");
+                             continue;
+                         }
+                         
                          QuoteDataJson.Quotes.Add(Message);
                      }
                  }
