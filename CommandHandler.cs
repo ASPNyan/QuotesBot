@@ -238,13 +238,20 @@ public class CommandHandler
              if (ExistingQuotes != null) QuoteDataJson.Quotes.AddRange(ExistingQuotes);
              if (ChannelMessages.Count > 0)
              {
-                 foreach (var Message in from IMessage in ChannelMessages from MessageData in IMessage select MessageData.Content.Trim())
+                 foreach (IReadOnlyCollection<IMessage> IMessage in ChannelMessages)
+                 foreach (var MessageData in IMessage)
                  {
-                     Regex BaseDoubleRegex = new Regex("^\"(?:[^\"]|\"\")*\"\\s*-\\s*[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
-                     Regex DoubleQuoteRegex = new Regex("^\"(?:[^\"]|\"\")*\"\\s-\\s[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
+                     if (MessageData.Author.IsBot) continue;
+                     string Message = MessageData.Content.Trim();
+                     Regex BaseDoubleRegex = new Regex("^\"(?:[^\"]|\"\")*\"\\s*-\\s*[A-Za-z\\s0-9]+",
+                         RegexOptions.IgnoreCase);
+                     Regex DoubleQuoteRegex = new Regex("^\"(?:[^\"]|\"\")*\"\\s-\\s[A-Za-z\\s0-9]+",
+                         RegexOptions.IgnoreCase);
 
-                     Regex BaseSingleRegex = new Regex("^'(?:[^']|'')*'\\s*-\\s*[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
-                     Regex SingleQuoteRegex = new Regex("^'(?:[^']|'')*'\\s-\\s[A-Za-z\\s0-9]+", RegexOptions.IgnoreCase);
+                     Regex BaseSingleRegex = new Regex("^'(?:[^']|'')*'\\s*-\\s*[A-Za-z\\s0-9]+",
+                         RegexOptions.IgnoreCase);
+                     Regex SingleQuoteRegex = new Regex("^'(?:[^']|'')*'\\s-\\s[A-Za-z\\s0-9]+",
+                         RegexOptions.IgnoreCase);
                      if (BaseDoubleRegex.IsMatch(Message, 0) || BaseSingleRegex.IsMatch(Message, 0))
                      {
                          if (!(DoubleQuoteRegex.IsMatch(Message, 0) || SingleQuoteRegex.IsMatch(Message, 0)))
@@ -259,11 +266,11 @@ public class CommandHandler
                                  Quote = Quote.Replace("\"", "").Trim();
                                  Quote = $"\"{Quote}\"";
                              }
-                             
+
                              QuoteDataJson.Quotes.Add($"{Quote} - {Author}");
                              continue;
                          }
-                         
+
                          QuoteDataJson.Quotes.Add(Message);
                      }
                  }

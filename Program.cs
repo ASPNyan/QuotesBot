@@ -54,6 +54,7 @@ public class Program
 
     private static async Task OnMessageReceived(SocketMessage SocketMessage)
     {
+        if (SocketMessage.Author.IsBot) return;
         var Channel = SocketMessage.Channel;
         var QuoteFiles = Directory.GetFiles("./GuildQuotes");
         foreach (string QuoteFile in QuoteFiles)
@@ -120,6 +121,7 @@ public class Program
             var Messages = await Channel.GetMessagesAsync().FlattenAsync();
             foreach (var IMessage in Messages)
             {
+                if (IMessage.Author.IsBot) return;
                 string Message = IMessage.Content.Trim();
                         
                 Regex BaseDoubleRegex = new Regex("^\"(?:[^\"]|\"\")*\"\\s*-\\s*[A-Za-z\\s0-9]+",
