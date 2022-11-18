@@ -16,8 +16,11 @@ Regex SingleQuoteRegex = new Regex("'(?:[^']|'')*'\\s+-\\s+[A-Za-z\\s0-9]+", Reg
 
 Usage Elsewhere: `"(?:[^"]|"")*"\s+-\s+[A-Za-z\s0-9]+` or `'(?:[^']|'')*'\s+-\s+[A-Za-z\s0-9]+`
 
-This Regex will match any quote that is surrounded by double quotes, followed by a space, a dash, and a space, followed by any number of letters or numbers.
-For Example, `"This is a quote" - User` or `'This is also a quote' - User 2022` will match, but `"This is a quote' - User` will not.
+This Regex will match any quote that is surrounded by double quotes, followed by any amount of whitespace, a dash, and any amount of whitespace again, followed by any number of letters or numbers.
+For Example, `"This is a quote" - User` or `'This is also a quote' -User 2022` will match, but `"This is a quote' - User` will not.
+
+The Bot will automatically format the quotes to be in the format of `"[Quote]" - [User]` when the user sends the quote, incase there is any whitespace or other formatting issues.
+This doesn't mean everything will be read and formatted to a quote, but it will at least trim whitespaces and keep whitespace around the dash to one space.
 
 The Bot is written in C# using the Discord.Net library.
 
